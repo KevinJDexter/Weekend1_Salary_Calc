@@ -1,11 +1,12 @@
 $(document).ready(onReady);
 
 let totalSalary = 0;
+let isGreyBackground = false;
 
 function onReady() {
   $('#submitButton').click(employeeSubmitClickHandler);
   $('#cumulativeMonthlySalary').text(totalSalary/12);
-  $('tbody').on('click', 'tr > td > button', deleteRow);
+  $('tbody').on('click', 'tr td button', deleteRow);
 }
 
 // Click handler for the Submit button
@@ -27,7 +28,14 @@ function addEmployee () {
   let title = '<td class="titleTable">' + getTitle() + '</td>';
   let salary = '<td class="salaryTable">' + getSalary() + '</td>';
   let delButton = '<td class = "delColumn"><button class="delButton">X</button></td>';
-  let newRow = '<tr>' + fName + lName + employeeId + title + salary + delButton + '</tr>';
+  let isGrey = ' class="greyRow"';
+  if (isGreyBackground) {
+    isGreyBackground = false;
+  } else {
+    isGreyBackground = true;
+    isGrey = '';
+  }
+  let newRow = '<tr' + isGrey + '>' + fName + lName + employeeId + title + salary + delButton + '</tr>';
   // $('#employeeInfo').append(newRow);
   $('#employeeInfo:last').prepend(newRow);
 }
@@ -64,6 +72,12 @@ function deleteRow () {
   totalSalary -= reduceAnnualBy;
   $(this).parent().parent().remove();
   updateMonthlySalary();
+  recolorRows();
+}
+
+function recolorRows () {
+  let allRows = $(tbody).children();
+  console.log(allRows);
 }
 
 function updateMonthlySalary (action) {
