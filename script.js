@@ -10,8 +10,8 @@ function onReady() {
 
 // Click handler for the Submit button
 function employeeSubmitClickHandler() {
-  if ( getId() * 1 == NaN || getSalary() * 1 == NaN) {
-    alert ('Id and Salary MUST be numbers');
+  if ( isNaN(getId() * 1) || isNaN( getSalary() * 1) || getId() == 0 || getSalary() == 0) {
+    alert ('Id and Salary MUST be non-zero numbers');
     return false;
   }
   addEmployee();
@@ -30,7 +30,6 @@ function addEmployee () {
   let newRow = '<tr>' + fName + lName + employeeId + title + salary + delButton + '</tr>';
   // $('#employeeInfo').append(newRow);
   $('#employeeInfo:last').prepend(newRow);
-  // addDeleteFunction();
 }
 
 // Converts salary value to a string with Comma's
@@ -61,7 +60,10 @@ function addCommaToSalary (salary) {
 }
 
 function deleteRow () {
+  let reduceAnnualBy = $(this).parent().siblings('.salaryTable').text();
+  totalSalary -= reduceAnnualBy;
   $(this).parent().parent().remove();
+  updateMonthlySalary();
 }
 
 function updateMonthlySalary (action) {
