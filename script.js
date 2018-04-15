@@ -5,6 +5,7 @@ let totalSalary = 0;
 function onReady() {
   $('#submitButton').click(employeeSubmitClickHandler);
   $('#cumulativeMonthlySalary').text(totalSalary/12);
+  $('tbody').on('click', 'tr > td > button', deleteRow);
 }
 
 // Click handler for the Submit button
@@ -20,13 +21,16 @@ function employeeSubmitClickHandler() {
 
 // Adds a new employee row to the table;
 function addEmployee () {
-  let fName = '<td>' + getFirstName() + '</td>';
-  let lName = '<td>' + getLastName() + '</td>';
-  let employeeId = '<td>' + getId() + '</td>';
-  let title = '<td>' + getTitle() + '</td>';
-  let salary = '<td>' + getSalary() + '</td>';
-  let newRow = '<tr>' + fName + lName + employeeId + title + salary + '</tr>';
-  $('#employeeInfo').append(newRow);
+  let fName = '<td class="fNameTable">' + getFirstName() + '</td>';
+  let lName = '<td class="lNameTable">' + getLastName() + '</td>';
+  let employeeId = '<td class="idTable">' + getId() + '</td>';
+  let title = '<td class="titleTable">' + getTitle() + '</td>';
+  let salary = '<td class="salaryTable">' + getSalary() + '</td>';
+  let delButton = '<td class = "delColumn"><button class="delButton">X</button></td>';
+  let newRow = '<tr>' + fName + lName + employeeId + title + salary + delButton + '</tr>';
+  // $('#employeeInfo').append(newRow);
+  $('#employeeInfo:last').prepend(newRow);
+  // addDeleteFunction();
 }
 
 // Converts salary value to a string with Comma's
@@ -54,6 +58,10 @@ function addCommaToSalary (salary) {
     commaSalary = '0';
   }
   return commaSalary;
+}
+
+function deleteRow () {
+  $(this).parent().parent().remove();
 }
 
 function updateMonthlySalary (action) {

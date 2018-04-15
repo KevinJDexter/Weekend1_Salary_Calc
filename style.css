@@ -1,3 +1,90 @@
+*{margin:0}
+
+#blankRow {
+  height: 10px;
+  color: green;
+}
+
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
+}
+
+#content {
+  margin: 5%;
+}
+
+.delButton {
+  width: 100%;
+}
+
+.delColumn {
+  border: none;
+  flex-grow: 1;
+  width: 5%;
+}
+
+#fNameInput {
+  margin-left: 0px;
+}
+
+header {
+  background-color: grey;
+  color: white;
+  margin: 0px;
+  padding: 20px;
+  text-align: center;
+}
+
+input {
+  flex-grow: 1;
+  font-size: 1.25em;
+  height: 1.25em;
+  margin: 5px;
+  /* width: 90%; */
+}
+
+#inputFieldsDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+#salaryInput {
+  margin-right: 0px;
+}
+
+#submitButton {
+  float: right;
+}
+
+table {
+  width: 100%;
+}
+
+tr {
+  /* display: flex; */
+}
+
+.fNameTable {
+  flex-grow: 4;
+}
+
+.lNameTable {
+  flex-grow: 4;
+}
+
+.idTable {
+  flex-grow: 2;
+}
+
+.titleTable {
+  flex-grow: 3;
+}
+
+.salaryTable {
+  flex-grow: 3;
+}
+
 table, tr, th {
   border: black 1px solid;
 }
+
