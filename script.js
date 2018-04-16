@@ -26,15 +26,13 @@ function addEmployee () {
   let lName = '<td class="lNameTable">' + getLastName() + '</td>';
   let employeeId = '<td class="idTable">' + getId() + '</td>';
   let title = '<td class="titleTable">' + getTitle() + '</td>';
-  let salary = '<td class="salaryTable">' + getSalary() + '</td>';
+  let salary = '<td class="salaryTable">' + addCommaToSalary(getSalary()) + '</td>';
   let delButton = '<td class = "delColumn"><button class="delButton">X</button></td>';
   let isGrey = ' class="greyRow"';
-  if (isGreyBackground) {
-    isGreyBackground = false;
-  } else {
-    isGreyBackground = true;
+  if (!isGreyBackground) {
     isGrey = '';
   }
+  isGreyBackground = !isGreyBackground;
   let newRow = '<tr' + isGrey + '>' + fName + lName + employeeId + title + salary + delButton + '</tr>';
   // $('#employeeInfo').append(newRow);
   $('#employeeInfo:last').prepend(newRow);
@@ -60,31 +58,42 @@ function addCommaToSalary (salary) {
       commaSalary = ',' + commaSalary;
     }
   }
-  console.log(commaSalary);
   if (commaSalary == '') {
     commaSalary = '0';
   }
   return commaSalary;
 }
 
+// Delete Row functionality
 function deleteRow () {
   let reduceAnnualBy = $(this).parent().siblings('.salaryTable').text();
-  totalSalary -= reduceAnnualBy;
   $(this).parent().parent().remove();
-  updateMonthlySalary();
+  updateMonthlySalary(reduceAnnualBy);
   recolorRows();
 }
 
+// Recolors the rows alternating grey and white when an element is deleted
 function recolorRows () {
-  let allRows = $(tbody).children();
-  console.log(allRows);
+  let allRows = $('tbody').children();
+  isGreyBackground = false;
+  
+  for (let i = allRows.length - 2; i >= 0; i--) {
+    if (!isGreyBackground) {
+      allRows.eq(i).removeClass('greyRow');
+    } else {
+      allRows.eq(i).addClass('greyRow');
+    }
+    isGreyBackground = !isGreyBackground;
+  }
 }
 
-function updateMonthlySalary (action) {
-  if ( action == 'submit' ) {
+// updates value for the Total Monthly displayed at the bottom.
+function updateMonthlySalary (val) {
+  if ( val == 'submit' ) {
     totalSalary += getSalary() * 1;
-  } else if ( action == 'delete') {
-    // This will reduce totalMonthlySalary
+  } else {
+    let reduceAnnualBy = Number(val.replace(/,/g,'').replace('.00',''));
+    totalSalary -= reduceAnnualBy;
   }
   let totalMonthlySalary = Math.round(totalSalary / 12 * 100)/100;
   let salaryString = totalMonthlySalary.toString();
@@ -117,7 +126,7 @@ function getTitle() {
 // Removes commas from user input for easier use
 function getSalary() {
   let salary = $('#salaryInput').val()
-  return salary.replace(',', '');
+  return salary.replace(/,/g, '');
 }
 
 // Restores all inputs to blank fields, displaying their placeholder text
